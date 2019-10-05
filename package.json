@@ -1,0 +1,16 @@
+{
+  "name": "compiler-project",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Rafael Santiago",
+  "license": "ISC",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "devDependencies": {
+    "sucrase": "^3.10.1"
+  },
+  "dependencies": {
+    "commander": "^3.0.2"
+  }
+}
