@@ -44,7 +44,7 @@ function scanner(filePath) {
         (match = regex.exec(sourceCode)) && (pair = { token, value: match[0] })
     );
 
-    if (error) throw new Error('Scanner - Unable to define lexems.');
+    if (error) throw new Error('Scanner - Unable to define lexemes.');
 
     if (pair.value) {
       pairs.push(pair);
