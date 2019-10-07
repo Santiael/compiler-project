@@ -11,5 +11,9 @@ compiler
   )
   .parse(process.argv);
 
-const tokens = scanner(compiler.source);
-if (compiler.debug) console.log('Tokens: ', tokens);
+try {
+  const tokens = scanner(compiler.source);
+  if (compiler.debug) console.log('Tokens: ', tokens);
+} catch (error) {
+  console.error(error);
+}

@@ -36,19 +36,19 @@ function scanner(filePath) {
     .toString()
     .replace(/(\n|\r)/g, '');
 
-  let pair, match;
+  let pair, match, error;
 
   while (sourceCode.length) {
-    pair = { value: null, token: undefined };
-
-    grammar.some(
+    error = !grammar.some(
       (regex, token) =>
-        (match = regex.exec(sourceCode)) && (pair = { value: match[0], token })
+        (match = regex.exec(sourceCode)) && (pair = { token, value: match[0] })
     );
+
+    if (error) throw new Error('Scanner - Unable to define lexems.');
 
     if (pair.value) {
       pairs.push(pair);
-      sourceCode = sourceCode.slice(pair.value.length + match.index).trim();
+      sourceCode = sourceCode.slice(pair.value.length).trim();
     }
   }
 
