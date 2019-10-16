@@ -1,20 +1,19 @@
 const author = "Rafael Santiago";
 
 fn range(start, end) {
-  const result = [start];
   var cursor = end - start;
 
   if(start <= end) {
-    if (cursor < end) repeat {
+    while (cursor < end) {
       cursor = cursor + 1;
-      result.push(cursor);
+      print(cursor);
     }
   } else {
-    if (cursor > end) repeat {
+    while (cursor > end) {
       cursor = cursor - 1;
-      result.push(cursor);
+      print(cursor);
     }
   }
 
-  return result;
+  return 0;
 }
