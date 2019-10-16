@@ -1,32 +1,33 @@
 const fs = require('fs');
 
 const grammar = [
-  /^;/,
-  /^const/,
-  /^var/,
-  /^fn/,
-  /^\(/,
-  /^\)/,
-  /^\[/,
-  /^\]/,
-  /^{/,
-  /^}/,
-  /^=/,
-  /^\./,
-  /^,/,
-  /^:/,
-  /^(\+|-|\*|\/|%)/,
-  /^(>=|<=|==|!=|>|<)/,
-  /^(or|and|not)/,
-  /^if/,
-  /^else/,
-  /^repeat/,
-  /^return/,
-  /^null/,
-  /^(true|false)/,
-  /^"[^"]*"/,
-  /^\d*\.?\d+/,
-  /^[_a-zA-Z]\w*/,
+  [';', /^;/],
+  ['CONST', /^const/],
+  ['VAR', /^var/],
+  ['FN', /^fn/],
+  ['(', /^\(/],
+  [')', /^\)/],
+  ['[', /^\[/],
+  [']', /^\]/],
+  ['{', /^{/],
+  ['}', /^}/],
+  ['=', /^=/],
+  ['.', /^\./],
+  [',', /^,/],
+  [':', /^:/],
+  ['MAT_OP', /^(\+|-|\*|\/|%)/],
+  ['COMP_OP', /^(>=|<=|==|!=|>|<)/],
+  ['LOG_OP', /^(or|and)/],
+  ['NOT', /^not/],
+  ['IF', /^if/],
+  ['ELSE', /^else/],
+  ['REPEAT', /^repeat/],
+  ['RETURN', /^return/],
+  ['NULL', /^null/],
+  ['BOOL', /^(true|false)/],
+  ['STRING', /^"[^"]*"/],
+  ['NUM', /^\d*\.?\d+/],
+  ['ID', /^[_a-zA-Z]\w*/],
 ];
 
 function scanner(filePath) {
@@ -40,7 +41,7 @@ function scanner(filePath) {
 
   while (sourceCode.length) {
     error = !grammar.some(
-      (regex, token) =>
+      ([token, regex]) =>
         (match = regex.exec(sourceCode)) && (pair = { token, value: match[0] })
     );
 
