@@ -1,19 +1,34 @@
-const author = "Rafael Santiago";
+var author = "Rafael Santiago";
 
-fn range(start, end) {
-  var cursor = end - start;
+print(author);
 
-  if(start <= end) {
-    while (cursor < end) {
-      cursor = cursor + 1;
-      print(cursor);
-    }
-  } else {
-    while (cursor > end) {
-      cursor = cursor - 1;
-      print(cursor);
-    }
-  }
+var start = 0;
+var end = 10;
 
-  return 0;
+if(start == end){
+
+	print(start);
+
+} else if(start < end) {
+
+	var cursor = start;
+
+	while (cursor < end) {
+		print(cursor);
+		cursor = cursor + 1;
+	}
+
+	print(cursor);
+
+} else {
+
+	var cursor = end;
+
+	while (cursor > start) {
+		print(cursor);
+		cursor = cursor - 1;
+	}
+
+	print(cursor);
+
 }
