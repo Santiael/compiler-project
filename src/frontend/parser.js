@@ -1,4 +1,4 @@
-const parseTable = require('./parser-table');
+const parseTable = require('../definitions/parse-table');
 
 function parser(values) {
   const sentence = [...values, '$'].reverse();

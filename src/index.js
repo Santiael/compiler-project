@@ -17,9 +17,14 @@ compiler
   .parse(process.argv);
 
 try {
-  const { source, verbose, dev } = compiler;
+  const { source, verbose } = compiler;
 
-  const pairs = scanner(source);
+  const file = fs
+    .readFileSync(source)
+    .toString()
+    .replace(/(\n|\r)/g, '');
+
+  const pairs = scanner(file);
 
   if (verbose) console.log('Scanner Result: ', pairs);
 
@@ -33,7 +38,7 @@ try {
     }
   );
 
-  const productions = parser(pairs.map(pair => pair.token), dev);
+  const productions = parser(pairs.map(pair => pair.token));
 
   if (verbose) console.log('Parser Result: ', productions);
 

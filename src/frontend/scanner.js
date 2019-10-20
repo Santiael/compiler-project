@@ -1,34 +1,8 @@
-const fs = require('fs');
+const grammar = require('../definitions/grammar');
 
-const grammar = [
-  ['var', /^var/],
-  ['null', /^null/],
-  ['bool', /^(true|false)/],
-  ['string', /^"[^"]*"/],
-  ['num', /^\d*\.?\d+/],
-  ['if', /^if/],
-  ['else', /^else/],
-  ['while', /^while/],
-  ['print', /^print/],
-  ['comp_op', /^(>=|<=|==|!=|>|<)/],
-  ['mat_op', /^(\+|-|\*|\/|%)/],
-  ['log_op', /^(or|and)/],
-  ['id', /^[_a-zA-Z]\w*/],
-  ['=', /^=/],
-  ['(', /^\(/],
-  [')', /^\)/],
-  ['{', /^{/],
-  ['}', /^}/],
-  [';', /^;/],
-];
-
-function scanner(filePath) {
+function scanner(file) {
   const pairs = [];
-  let sourceCode = fs
-    .readFileSync(filePath)
-    .toString()
-    .replace(/(\n|\r)/g, '');
-
+  let sourceCode = file;
   let pair, match, error;
 
   while (sourceCode.length) {
