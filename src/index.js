@@ -38,7 +38,7 @@ try {
     }
   );
 
-  const productions = parser(pairs.map(pair => pair.token));
+  const [parseTree, productions] = parser(pairs.map(pair => pair.token));
 
   if (verbose) console.log('Parser Result: ', productions);
 
