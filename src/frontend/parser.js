@@ -18,6 +18,19 @@ function parser(values) {
   let read, state;
   let currentNode = parseTree;
 
+  function nextNodeRight() {
+    let nextNode;
+
+    while (!nextNode) {
+      if (currentNode.parent) {
+        currentNode = currentNode.parent;
+        nextNode = currentNode.childs.find(c => !c.visited);
+      } else break;
+    }
+
+    return nextNode;
+  }
+
   while (stack.length) {
     state = stack.pop();
     currentNode.visited = true;
@@ -25,29 +38,24 @@ function parser(values) {
     if (!read) read = sentence.pop();
 
     if (state === read) {
-      let nextNode = null;
-
-      while (!nextNode) {
-        if (currentNode.parent) {
-          currentNode = currentNode.parent;
-          nextNode = currentNode.childs.find(c => !c.visited);
-        } else break;
-      }
-
-      currentNode = nextNode;
       read = null;
-
+      currentNode = nextNodeRight();
       continue;
     }
 
     const production = [...parseTable[state][read]];
 
     production.forEach(p => currentNode.childs.push(new Node(p, currentNode)));
+
     currentNode = currentNode.childs[0];
 
     productions.push([state, '→', ...production].join(' '));
 
-    if (production[0] === 'ɛ') continue;
+    if (production[0] === 'ɛ') {
+      currentNode.visited = true;
+      currentNode = nextNodeRight();
+      continue;
+    }
 
     stack.push(...production.reverse());
   }
