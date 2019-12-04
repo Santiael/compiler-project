@@ -1,20 +1,24 @@
 const parseTable = require('../definitions/parse-table');
 
-class Node {
-  constructor(value, parent = null) {
+class ASTNode {
+  constructor(production, parent = null, time = 0) {
     this.parent = parent;
-    this.value = value;
-    this.childs = null;
+    this.production = production;
+    this.children = null;
+    this.value = null;
+    this.time = time;
   }
 }
 
 function parser(tokens) {
   const sentence = [...tokens.map(t => t.key), '$'].reverse();
+  const values = [...tokens.map(t => t.value)].reverse();
   const stack = ['EXP'];
   const productions = [];
-  const parseTree = new Node('EXP');
+  const parseTree = new ASTNode('EXP');
 
   let read, state;
+  let time = 1;
   let currentNode = parseTree;
 
   function nextNodeRight() {
@@ -23,7 +27,7 @@ function parser(tokens) {
     while (!nextNode) {
       if (currentNode.parent) {
         currentNode = currentNode.parent;
-        nextNode = currentNode.childs.find(c => !c.childs);
+        nextNode = currentNode.children.find(c => !c.children);
       } else break;
     }
 
@@ -32,11 +36,12 @@ function parser(tokens) {
 
   while (stack.length) {
     state = stack.pop();
-    currentNode.childs = [];
+    currentNode.children = [];
 
     if (!read) read = sentence.pop();
 
     if (state === read) {
+      currentNode.value = values.pop();
       read = null;
       currentNode = nextNodeRight();
       continue;
@@ -44,14 +49,16 @@ function parser(tokens) {
 
     const production = [...parseTable[state][read]];
 
-    production.forEach(p => currentNode.childs.push(new Node(p, currentNode)));
+    production.forEach(p =>
+      currentNode.children.push(new ASTNode(p, currentNode, time++))
+    );
 
-    currentNode = currentNode.childs[0];
+    currentNode = currentNode.children[0];
 
     productions.push([state, '→', ...production].join(' '));
 
     if (production[0] === 'ɛ') {
-      currentNode.childs = [];
+      currentNode.children = [];
       currentNode = nextNodeRight();
       continue;
     }

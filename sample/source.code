@@ -1,34 +1,6 @@
-var author = "Rafael Santiago";
+var b = "lorem ipsum" + a;
 
-print(author);
+var a = 7;
 
-var start = 0;
-var end = 10;
+a = "foda-se";
 
-if(start == end){
-
-	print(start);
-
-} else if(start < end) {
-
-	var cursor = start;
-
-	while (cursor < end) {
-		print(cursor);
-		cursor = cursor + 1;
-	}
-
-	print(cursor);
-
-} else {
-
-	var cursor = end;
-
-	while (cursor > start) {
-		print(cursor);
-		cursor = cursor - 1;
-	}
-
-	print(cursor);
-
-}

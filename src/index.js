@@ -3,6 +3,7 @@ const path = require('path');
 const compiler = require('commander');
 const scanner = require('./frontend/scanner');
 const parser = require('./frontend/parser');
+const semanticAnalyzer = require('./frontend/semanticAnalyzer');
 
 const outputDir = './output';
 
@@ -32,13 +33,15 @@ try {
 
   fs.writeFileSync(
     path.resolve(outputDir, 'Tokens.txt'),
-    tokens.reduce((acc, token) => acc + `${token.token}, ${token.value}\n`, ''),
+    tokens.reduce((acc, token) => acc + `${token.key}, ${token.value}\n`, ''),
     {
       encoding: 'utf-8',
     }
   );
 
   const [parseTree, productions] = parser(tokens);
+
+  console.log(...semanticAnalyzer(parseTree));
 
   if (verbose) console.log('Parser Result: ', productions);
 
