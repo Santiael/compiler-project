@@ -41,7 +41,7 @@ try {
 
   const [parseTree, productions] = parser(tokens);
 
-  console.log(...semanticAnalyzer(parseTree));
+  console.log(semanticAnalyzer(parseTree));
 
   if (verbose) console.log('Parser Result: ', productions);
 

@@ -1,6 +1,6 @@
+a = "dolor sit amet";
+
 var b = "lorem ipsum" + a;
 
 var a = 7;
-
-a = "foda-se";
 
