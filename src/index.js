@@ -4,6 +4,7 @@ const compiler = require('commander');
 const scanner = require('./frontend/scanner');
 const parser = require('./frontend/parser');
 const semanticAnalyzer = require('./frontend/semanticAnalyzer');
+const shortener = require('./backend/shortener');
 
 const outputDir = './output';
 
@@ -53,8 +54,6 @@ try {
 
   const [attributions, types] = semanticAnalyzer(parseTree);
 
-  console.log(types);
-
   fs.writeFileSync(
     path.resolve(outputDir, 'Types.txt'),
     types.map(t => `${t.time}. ${t.id}: ${t.type}`).join('\n'),
@@ -62,6 +61,18 @@ try {
       encoding: 'utf-8',
     }
   );
+
+  const intermediateCode = shortener(attributions);
+
+  fs.writeFileSync(
+    path.resolve(outputDir, 'Code.txt'),
+    intermediateCode.map(sentence => sentence).join('\n'),
+    {
+      encoding: 'utf-8',
+    }
+  );
+
+  attributions.map(attr => attr.map(a => a.key).join(' ')).join('\n');
 } catch (error) {
   console.error(error);
 }
