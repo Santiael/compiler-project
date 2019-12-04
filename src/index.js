@@ -24,21 +24,21 @@ try {
     .toString()
     .replace(/(\n|\r)/g, '');
 
-  const pairs = scanner(file);
+  const tokens = scanner(file);
 
-  if (verbose) console.log('Scanner Result: ', pairs);
+  if (verbose) console.log('Scanner Result: ', tokens);
 
   if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
 
   fs.writeFileSync(
-    path.resolve(outputDir, 'TokensAndValues.txt'),
-    pairs.reduce((acc, pair) => acc + `${pair.token}, ${pair.value}\n`, ''),
+    path.resolve(outputDir, 'Tokens.txt'),
+    tokens.reduce((acc, token) => acc + `${token.token}, ${token.value}\n`, ''),
     {
       encoding: 'utf-8',
     }
   );
 
-  const [parseTree, productions] = parser(pairs.map(pair => pair.token));
+  const [parseTree, productions] = parser(tokens);
 
   if (verbose) console.log('Parser Result: ', productions);
 

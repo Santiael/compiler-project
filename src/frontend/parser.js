@@ -9,8 +9,8 @@ class Node {
   }
 }
 
-function parser(values) {
-  const sentence = [...values, '$'].reverse();
+function parser(tokens) {
+  const sentence = [...tokens.map(t => t.key), '$'].reverse();
   const stack = ['EXP'];
   const productions = [];
   const parseTree = new Node('EXP');
