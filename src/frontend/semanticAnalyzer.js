@@ -2,9 +2,9 @@ function semanticAnalyzer(parseTree) {
   const ATTRS = getAllATTR(parseTree);
   const attributions = ATTRS.map(a => buildExpression(a));
 
-  typeChecker(attributions);
+  const types = typeChecker(attributions);
 
-  return attributions;
+  return [attributions, types];
 }
 
 function getAllATTR(node) {
@@ -90,6 +90,8 @@ function typeChecker(attributions) {
 
     types.push(varType);
   });
+
+  return types;
 }
 
 module.exports = semanticAnalyzer;

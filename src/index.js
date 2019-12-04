@@ -41,13 +41,23 @@ try {
 
   const [parseTree, productions] = parser(tokens);
 
-  console.log(semanticAnalyzer(parseTree));
-
   if (verbose) console.log('Parser Result: ', productions);
 
   fs.writeFileSync(
     path.resolve(outputDir, 'Productions.txt'),
     productions.join('\n'),
+    {
+      encoding: 'utf-8',
+    }
+  );
+
+  const [attributions, types] = semanticAnalyzer(parseTree);
+
+  console.log(types);
+
+  fs.writeFileSync(
+    path.resolve(outputDir, 'Types.txt'),
+    types.map(t => `${t.time}. ${t.id}: ${t.type}`).join('\n'),
     {
       encoding: 'utf-8',
     }
