@@ -4,8 +4,7 @@ class Node {
   constructor(value, parent = null) {
     this.parent = parent;
     this.value = value;
-    this.childs = [];
-    this.visited = false;
+    this.childs = null;
   }
 }
 
@@ -24,7 +23,7 @@ function parser(tokens) {
     while (!nextNode) {
       if (currentNode.parent) {
         currentNode = currentNode.parent;
-        nextNode = currentNode.childs.find(c => !c.visited);
+        nextNode = currentNode.childs.find(c => !c.childs);
       } else break;
     }
 
@@ -33,7 +32,7 @@ function parser(tokens) {
 
   while (stack.length) {
     state = stack.pop();
-    currentNode.visited = true;
+    currentNode.childs = [];
 
     if (!read) read = sentence.pop();
 
@@ -52,7 +51,7 @@ function parser(tokens) {
     productions.push([state, '→', ...production].join(' '));
 
     if (production[0] === 'ɛ') {
-      currentNode.visited = true;
+      currentNode.childs = [];
       currentNode = nextNodeRight();
       continue;
     }
